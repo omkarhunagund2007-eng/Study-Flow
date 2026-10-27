@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="StudyFlow: manage tasks, subjects and study sessions in one place." />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>StudyFlow</title>
+    <script>
+      // Runs before the page paints, so a saved dark theme never flashes white.
+      // Same rule as the app: saved choice first, otherwise the system setting.
+      (function () {
+        var theme = null;
+        try {
+          var saved = JSON.parse(localStorage.getItem('studyflow.preferences'));
+          if (saved && (saved.theme === 'light' || saved.theme === 'dark')) theme = saved.theme;
+        } catch (e) {}
+        if (!theme) {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>StudyFlow needs JavaScript to run. Please enable it in your browser.</noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
